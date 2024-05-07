@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:ValidCountry a ex:Country ;
+    ex:name "Italy" .
+
+ex:InvalidCountry a ex:Country ;
+    ex:name "Switzerland" .

@@ -1,0 +1,75 @@
+@prefix : <http://shacl-x.example.org/> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix log: <http://example.org/ont/transaction-log/> .
+@prefix ex: <http://example.org/ns#> .
+
+<http://shacl-x.example.org/>
+  rdf:type owl:Ontology ;
+  owl:imports <http://datashapes.org/dash> ;
+.
+
+:ExampleShape
+  rdf:type sh:NodeShape ;
+  sh:targetClass log:Transaction ;
+.
+
+ex:LanguageExampleShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Country ;
+    sh:property [
+        sh:path ex:name ;
+        ex:maxLength 5;
+    ] ;
+    sh:js :JSConstraint-Component ;
+	sh:py :PyConstraint-Component ;
+.
+
+:PyConstraint-Component
+   a sh:PyConstraint ;
+   sh:message "Values are literals with German language tag." ;
+   sh:pyLibrary [ sh:pyLibraryURL "http://shacl-x-web/german_label.py"^^xsd:anyURI ] ;
+   sh:pyFunctionName "validate_german_label" ;
+.
+
+:JSConstraint-Component
+   a sh:JSConstraint ;
+   sh:message "Values are literals with German language tag." ;
+   sh:jsLibrary [ sh:jsLibraryURL "http://shacl-x-web/germanLabel.js"^^xsd:anyURI ] ;
+   sh:jsFunctionName "validateGermanLabel" ;
+.
+
+ex:MaxLengthConstraintComponent
+    a sh:ConstraintComponent ;
+	sh:parameter [
+		sh:path ex:maxLength ;
+		sh:datatype xsd:integer ;
+	] ;
+	sh:validator ex:hasMaxLength ;
+.
+
+ex:hasMaxLengthJS
+	a sh:JSValidator ;
+	sh:message "Value has more than {$maxLength} characters" ;
+	rdfs:comment """
+		Note that $value and $maxLength are RDF nodes expressed in JavaScript Objects.
+		Their string value is accessed via the .lex and .uri attributes.
+		The function returns true if no violation has been found.
+		""" ;
+	sh:jsLibrary [ sh:jsLibraryURL "http://shacl-x-web/hasMaxLength.js"^^xsd:anyURI ] ;
+	sh:jsFunctionName "hasMaxLength" .
+
+ex:hasMaxLength
+	a sh:PyValidator ;
+	sh:message "Value has more than {$maxLength} characters" ;
+	rdfs:comment """
+		Note that _value and _maxLength are RDF nodes expressed in Python Objects.
+		Their string value is accessed via the .getLex() and .getUri() attributes.
+		The function returns true if no violation has been found.
+		""" ;
+	sh:pyLibrary [ sh:pyLibraryURL "http://shacl-x-web/has_max_length.py"^^xsd:anyURI ] ;
+	sh:pyFunctionName "has_max_length" .
