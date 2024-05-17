@@ -11,7 +11,14 @@ config.plugins.push(
             "publishCmd": publishCmd
         }
     ],
-    "@semantic-release/github",
+    [
+        "@semantic-release/github",
+        {
+            "assets": [
+                { "path": "data/**", "label": "TTL files containing the data/shapes examples" }
+            ]
+        }
+    ],
     "@semantic-release/git"
 )
 module.exports = config
