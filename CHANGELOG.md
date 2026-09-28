@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/SHACL-X/examples/compare/1.0.1...1.0.2) (2026-09-28)
+
+### Dependency updates
+
+* **core-deps:** update nginx docker tag to v1.31.6 ([f39e1a0](https://github.com/SHACL-X/examples/commit/f39e1a03c0d6e402544e97ce47fa311358e87048))
+
 ## [1.0.1](https://github.com/SHACL-X/examples/compare/1.0.0...1.0.1) (2026-09-14)
 
 ### Dependency updates
